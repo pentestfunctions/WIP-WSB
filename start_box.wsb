@@ -1,0 +1,38 @@
+<Configuration>
+    <!-- Enable networking for downloads -->
+    <Networking>Enable</Networking>
+    
+    <!-- Disable protection for better performance -->
+    <ProtectedClient>false</ProtectedClient>
+    
+    <!-- Enable vGPU for GPU acceleration -->
+    <VGPU>Enable</VGPU>
+    
+    <!-- Memory allocation in MB (adjust based on your system) -->
+    <MemoryInMB>8192</MemoryInMB>
+    
+    <!-- Assign multiple CPU cores -->
+    <Processors>8</Processors>
+    
+    <!-- Disable unused features for better performance -->
+    <AudioInput>Disable</AudioInput>
+    <VideoInput>Disable</VideoInput>
+    <PrinterRedirection>Disable</PrinterRedirection>
+    <ClipboardRedirection>Enable</ClipboardRedirection>
+    
+    <!-- Performance optimizations at startup -->
+    <LogonCommand>
+        <Command>powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $true"</Command>
+        <Command>powershell -Command "Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False"</Command>
+        <!-- Optimize for performance -->
+        <Command>powershell -Command "$p='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects'; Set-ItemProperty -Path $p -Name VisualFXSetting -Value 2"</Command>
+        <!-- Disable Windows Search -->
+        <Command>powershell -Command "Stop-Service WSearch; Set-Service WSearch -StartupType Disabled"</Command>
+        <!-- Disable Superfetch -->
+        <Command>powershell -Command "Stop-Service SysMain; Set-Service SysMain -StartupType Disabled"</Command>
+        <!-- Set Power Plan to High Performance -->
+        <Command>powershell -Command "powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"</Command>
+        <!-- Clear temp files -->
+        <Command>powershell -Command "Remove-Item $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue"</Command>
+    </LogonCommand>
+</Configuration>
